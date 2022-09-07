@@ -1,0 +1,25 @@
+---
+
+- hosts: standby_servers
+  become: true
+  tasks:
+
+  - name: Create archive directory
+    shell: |
+     sudo mkdir /var/lib/postgresql/archivedir
+    args:
+     warn: no
+
+  - name: Ensure PostgreSQL is listening on *
+    lineinfile:
+     dest: /etc/postgresql/13/main/postgresql.conf
+     regexp: '^#listen_addresses\s*='
+     line: "listen_addresses='*'"
+     state: present
+
+  - name: Add new configuration to "pg_hba.conf"
+    blockinfile:
+     dest: /etc/postgresql/13/main/pg_hba.conf
+     block: |
+      host    all             all             samenet                scram-sha-256
+      host    replication     all             samenet                scram-sha-256

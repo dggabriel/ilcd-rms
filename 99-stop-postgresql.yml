@@ -1,0 +1,10 @@
+---
+
+- hosts: standby_servers
+  become: true
+  tasks:
+
+    - name: Stop postgresql
+      service:
+       name: postgresql
+       state: stopped

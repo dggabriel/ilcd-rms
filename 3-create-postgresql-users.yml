@@ -1,0 +1,21 @@
+---
+#should be executed after setting password encryption to scram-sha-256 manually
+- hosts: standby_servers
+  become: true
+  tasks:
+
+  - name: drop user if exists
+    shell: 'psql postgres -c "DROP USER IF EXISTS pgpool,repl"'
+    become_user: postgres
+    ignore_errors: yes
+
+  - name: create user pgpool
+    shell: 'psql postgres -c "CREATE ROLE pgpool WITH LOGIN"'
+    become_user: postgres
+    ignore_errors: yes
+
+  - name: create user repl
+    shell: 'psql postgres -c "CREATE ROLE repl WITH REPLICATION LOGIN"'
+    become_user: postgres
+    ignore_errors: yes
+

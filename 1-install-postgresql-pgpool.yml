@@ -32,7 +32,7 @@
 
   - name: Install postgresql
     apt:
-     name: postgresql-14
+     name: postgresql-13
      update_cache: yes
      
   - name: Set up pgpool repo
@@ -49,3 +49,15 @@
       - libpgpool2 
       - postgresql-13-pgpool2
      update_cache: yes
+
+  - name: Stop postgresql
+    service:
+      name: postgresql
+      state: stopped
+
+  - name: Stop pgpool2
+    service:
+      name: pgpool2
+      state: stopped
+
+
