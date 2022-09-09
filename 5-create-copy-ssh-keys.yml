@@ -1,0 +1,77 @@
+---
+- hosts: all_servers
+  become: true
+  become_user: root
+
+  vars:
+    ssh_key_filename: id_rsa_pgpool
+  tasks:
+
+  - name: generate SSH key "{{ssh_key_filename}}"
+    openssh_keypair:
+      path: "~/.ssh/{{ssh_key_filename}}"
+      type: rsa
+      size: 4096
+      state: present
+      force: no
+    become_user: root
+    become: true
+
+  - name: create ssh directory for postgresql
+    shell: 'mkdir /var/lib/postgresql/.ssh'
+    become_user: postgres
+    become: true
+    ignore_errors: yes
+
+  - name: generate SSH key "{{ssh_key_filename}}"
+    openssh_keypair:
+      path: "~/.ssh/{{ssh_key_filename}}"
+      type: rsa
+      size: 4096
+      state: present
+      force: no
+    become_user: postgres
+
+  - name: duplicate id_rsa_pgpool to id_rsa
+    shell: 'cp /root/.ssh/id_rsa_pgpool /root/.ssh/id_rsa'
+    become_user: root
+    ignore_errors: yes
+
+  - name: duplicate id_rsa_pgpool to id_rsa
+    shell: 'cp /var/lib/postgresql/.ssh/id_rsa_pgpool /var/lib/postgresql/.ssh/id_rsa'
+    become_user: postgres
+    ignore_errors: yes
+
+  - name: set id_rsa file permission
+    shell: 'chmod  600 /root/.ssh/id_rsa'
+    become_user: root
+
+  - name: set id_rsa file permission
+    shell: 'chmod  600 /var/lib/postgresql/.ssh/id_rsa'
+    become_user: postgres
+
+  - name: create authorized_keys file
+    shell: 'touch /var/lib/postgresql/.ssh/authorized_keys'
+    become_user: postgres
+    ignore_errors: yes
+
+
+  - name: fetch all public ssh keys
+    shell: cat ~/.ssh/id_rsa_pgpool.pub
+    register: ssh_keys
+    tags:
+      - ssh
+
+  - name: check keys
+    debug: msg="{{ ssh_keys.stdout }}"
+    tags:
+      - ssh
+
+  - name: deploy keys on all servers
+    authorized_key: user=postgres key="{{ item[0] }}"
+    delegate_to: "{{ item[1] }}"
+    with_nested:
+      - "{{ ssh_keys.stdout }}"
+      - "{{groups['all_servers']}}"
+    tags:
+      - ssh

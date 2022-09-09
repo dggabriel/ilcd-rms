@@ -1,0 +1,19 @@
+---
+- hosts: standby_servers
+  become: true
+  tasks:
+
+  - name: add user postgres to sudo group
+    shell: 'usermod -aG sudo postgres'
+    become_user: root
+    ignore_errors: yes
+
+  - name: update sudoers file
+    blockinfile:
+     dest: /etc/sudoers
+     block: |
+      postgres  ALL=(ALL) NOPASSWD:ALL
+
+  - name: set sudoers file permission
+    shell: 'chmod  0440  /etc/sudoers'
+    become_user: root

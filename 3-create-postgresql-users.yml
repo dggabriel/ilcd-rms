@@ -19,3 +19,9 @@
     become_user: postgres
     ignore_errors: yes
 
+  - name: grant pg_monitor access to pgpool
+    shell: 'psql postgres -c "GRANT pg_monitor TO pgpool"'
+    become_user: postgres
+    ignore_errors: yes
+#manually set the password after
+
