@@ -1,0 +1,26 @@
+---
+- hosts: standby1
+  become: true
+  become_user: root
+
+  tasks:
+
+   - name: Setup set-hostname
+     shell: |
+      hostnamectl set-hostname 192.168.1.42
+     args:
+      warn: no
+
+   - name: Copy pgpool_node_id
+     template:
+       src: ./pgpool_files/standby1/pgpool_node_id
+       dest: /etc/pgpool2/
+       owner: root
+       group: root
+
+   - name: Copy pgpool.conf
+     template:
+       src: ./pgpool_files/standby1/pgpool.conf
+       dest: /etc/pgpool2/
+       owner: root
+       group: postgres

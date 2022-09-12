@@ -1,0 +1,12 @@
+---
+- hosts: standby1
+  become: true
+  become_user: root
+
+  tasks:
+
+   - name: Setup set-hostname
+     shell: |
+      hostnamectl set-hostname 192.168.1.41
+     args:
+      warn: no

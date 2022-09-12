@@ -1,0 +1,75 @@
+---
+- hosts: all_servers
+  become: true
+  become_user: root
+
+  tasks:
+
+   - name: Copy pool_hba.conf
+     template:
+       src: ./pgpool_files/pool_hba.conf
+       dest: /etc/pgpool2/pool_hba.conf
+       owner: root
+       group: postgres
+
+   - name: Copy pgpool_node_id
+     template:
+       src: ./pgpool_files/pgpool_node_id
+       dest: /etc/pgpool2/
+       owner: root
+       group: root
+
+   - name: Set up pgpoolkey
+     shell: |
+      echo 'some string' > ~/.pgpoolkey
+      chmod 600 ~/.pgpoolkey
+     args:
+      warn: no
+
+   - name: Copy pool_passwd
+     template:
+       src: ./pgpool_files/pool_passwd
+       dest: /etc/pgpool2/pool_passwd
+       owner: root
+       group: postgres
+
+   - name: Make directory for pgpool2 logs
+     shell: |
+      mkdir /var/log/pgpool2
+      touch /var/log/pgpool2/pgpool.log
+     args:
+      warn: no
+
+   - name: Add new configuration to "syslog /etc/rsyslog.conf"
+     blockinfile:
+      dest: /etc/rsyslog.conf
+      block: |
+       *.info;mail.none;authpriv.none;cron.none;LOCAL1.none    /var/log/messages
+       LOCAL1.*                                                /var/log/pgpool2/pgpool.log
+
+   #- name: Add new configuration to "logrotate /etc/logrotate.d/syslog"
+     #blockinfile:
+      #dest: /etc/logrotate.d/syslog
+      #block: |
+       #/var/log/messages
+       #/var/log/pgpool2/pgpool.log
+       #/var/log/secure
+
+   - name: Restart rsyslog
+     service:
+      name: rsyslog
+      state: restarted
+
+   - name: Copy pcp.conf
+     template:
+       src: ./pgpool_files/pcp.conf
+       dest: /etc/pgpool2/pcp.conf
+       owner: root
+       group: root 
+
+   - name: Setup .pcpass
+     shell: |
+      echo 'localhost:9898:pgpool:bbcb8540bb35f9801f6c0463e677b3a5' > ~/.pcppass
+      chmod 600 ~/.pcppass
+     args:
+      warn: no

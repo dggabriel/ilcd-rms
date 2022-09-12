@@ -1,6 +1,6 @@
 ---
 
-- hosts: standby_servers
+- hosts: all_servers
   become: true
   tasks:
 
