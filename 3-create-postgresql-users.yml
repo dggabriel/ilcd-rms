@@ -24,4 +24,4 @@
     become_user: postgres
     ignore_errors: yes
 #manually set the password after
-
+#manually set application name
