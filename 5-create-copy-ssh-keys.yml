@@ -68,7 +68,7 @@
       - ssh
 
   - name: deploy keys on all servers
-    authorized_key: user=postgres key="{{ item[0] }}"
+    authorized_key: user=root key="{{ item[0] }}"
     delegate_to: "{{ item[1] }}"
     with_nested:
       - "{{ ssh_keys.stdout }}"

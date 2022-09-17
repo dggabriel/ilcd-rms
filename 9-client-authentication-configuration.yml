@@ -35,17 +35,17 @@
 
    - name: Make directory for pgpool2 logs
      shell: |
-      mkdir /var/log/pgpool2
-      touch /var/log/pgpool2/pgpool.log
+      mkdir /var/log/pgpool_log/
+      chown postgres:postgres /var/log/pgpool_log/
      args:
       warn: no
 
-   - name: Add new configuration to "syslog /etc/rsyslog.conf"
-     blockinfile:
-      dest: /etc/rsyslog.conf
-      block: |
-       *.info;mail.none;authpriv.none;cron.none;LOCAL1.none    /var/log/messages
-       LOCAL1.*                                                /var/log/pgpool2/pgpool.log
+   #- name: Add new configuration to "syslog /etc/rsyslog.conf"
+     #blockinfile:
+      #dest: /etc/rsyslog.conf
+      #block: |
+       #*.info;mail.none;authpriv.none;cron.none;LOCAL1.none    /var/log/messages
+       #LOCAL1.*                                                /var/log/pgpool2/pgpool.log
 
    #- name: Add new configuration to "logrotate /etc/logrotate.d/syslog"
      #blockinfile:
@@ -55,10 +55,10 @@
        #/var/log/pgpool2/pgpool.log
        #/var/log/secure
 
-   - name: Restart rsyslog
-     service:
-      name: rsyslog
-      state: restarted
+   #- name: Restart rsyslog
+     #service:
+      #name: rsyslog
+      #state: restarted
 
    - name: Copy pcp.conf
      template:

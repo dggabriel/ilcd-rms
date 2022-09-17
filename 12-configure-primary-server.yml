@@ -1,5 +1,5 @@
 ---
-- hosts: standby1
+- hosts: primary
   become: true
   become_user: root
 

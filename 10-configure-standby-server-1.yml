@@ -18,9 +18,9 @@
        owner: root
        group: root
 
-   - name: Copy pgpool.conf
-     template:
-       src: ./pgpool_files/standby1/pgpool.conf
-       dest: /etc/pgpool2/
-       owner: root
-       group: postgres
+   #- name: Copy pgpool.conf
+     #template:
+       #src: ./pgpool_files/standby1/pgpool.conf
+       #dest: /etc/pgpool2/
+       #owner: root
+       #group: postgres
