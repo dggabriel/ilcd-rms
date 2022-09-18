@@ -10,7 +10,7 @@
        src: ./pgpool_files/pool_hba.conf
        dest: /etc/pgpool2/pool_hba.conf
        owner: root
-       group: postgres
+       group: root
 
    - name: Copy pgpool_node_id
      template:
@@ -23,6 +23,14 @@
      shell: |
       echo 'some string' > ~/.pgpoolkey
       chmod 600 ~/.pgpoolkey
+     args:
+      warn: no
+
+   - name: Set up pgpoolkey (postgres)
+     shell: |
+      echo 'some string' > /var/lib/postgresql/.pgpoolkey
+      chmod 600  /var/lib/postgresql/.pgpoolkey
+      chown postgres:postgres /var/lib/postgresql/.pgpoolkey
      args:
       warn: no
 
@@ -71,5 +79,13 @@
      shell: |
       echo 'localhost:9898:pgpool:bbcb8540bb35f9801f6c0463e677b3a5' > ~/.pcppass
       chmod 600 ~/.pcppass
+     args:
+      warn: no
+
+   - name: Setup .pcpass (postgres)
+     shell: |
+      echo 'localhost:9898:pgpool:bbcb8540bb35f9801f6c0463e677b3a5' > /var/lib/postgresql/.pcppass
+      chmod 600 /var/lib/postgresql/.pcppass
+      chown postgres:postgres /var/lib/postgresql/.pcppass
      args:
       warn: no

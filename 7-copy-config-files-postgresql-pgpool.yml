@@ -18,31 +18,31 @@
        src: ./pgpool_files/pgpool.conf
        dest: /etc/pgpool2/pgpool.conf
        owner: root
-       group: root
+       group: postgres
  
    - name: Copy failover.sh
      template:
        src: ./pgpool_files/failover.sh
        dest: /etc/pgpool2/
        mode: 0755
-       owner: postgres
-       group: postgres
+       owner: root
+       group: root
 
    - name: Copy follow_primary.sh
      template:
        src: ./pgpool_files/follow_primary.sh
        dest: /etc/pgpool2/
        mode: 0755
-       owner: postgres
-       group: postgres
+       owner: root
+       group: root
 
    - name: Copy escalation.sh
      template:
        src: ./pgpool_files/escalation.sh
        dest: /etc/pgpool2/
        mode: 0755
-       owner: postgres
-       group: postgres
+       owner: root
+       group: root
 
 
    - name: Copy recovery_1st_stage
@@ -50,14 +50,14 @@
        src: ./pgpool_files/recovery_1st_stage
        dest: /var/lib/postgresql/13/main/
        mode: 0755
-       owner: postgres
-       group: postgres
+       owner: root
+       group: root
 
    - name: Copy pgpool_remote_start
      template:
        src: ./pgpool_files/pgpool_remote_start
        dest: /var/lib/postgresql/13/main/
        mode: 0755
-       owner: postgres
-       group: postgres
+       owner: root
+       group: root
 
