@@ -31,7 +31,7 @@ NEW_MAIN_NODE_PGDATA="${10}"
 OLD_PRIMARY_NODE_HOST="${11}"
 OLD_PRIMARY_NODE_PORT="${12}"
 
-PGHOME=/usr/lib/postgresql/13/
+PGHOME=/usr/lib/postgresql/13
 REPL_SLOT_NAME=${FAILED_NODE_HOST//[-.]/_}
 POSTGRESQL_STARTUP_USER=postgres
 SSH_KEY_FILE=id_rsa_pgpool

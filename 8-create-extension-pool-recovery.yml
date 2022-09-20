@@ -1,9 +1,9 @@
 ---
-- hosts: primary
+- hosts: all_servers
   become: true
   tasks:
 
-  - name: drop user if exists
+  - name: create extension for pgpool_recovery
     shell: 'psql template1 -c "CREATE EXTENSION pgpool_recovery"'
     become_user: postgres
     ignore_errors: yes
