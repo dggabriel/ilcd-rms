@@ -61,3 +61,18 @@
        owner: root
        group: root
 
+   - name: Copy myrecovery.conf
+     template:
+       src: ./pgpool_files/myrecovery.conf
+       dest: /var/lib/postgresql/13/main/
+       mode: 0644
+       owner: postgres
+       group: postgres
+
+   - name: Copy postgresql.conf
+     template:
+       src: ./pgpool_files/postgresql.conf
+       dest: /etc/postgresql/13/main/
+       mode: 0644
+       owner: postgres
+       group: postgres

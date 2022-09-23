@@ -1,0 +1,25 @@
+---
+
+- hosts: uvle-sample-db
+  become: true
+  tasks:
+  
+    - name: Stop pgpool
+      service:
+       name: pgpool
+       state: stopped
+
+    - name: Stop postgresql
+      service:
+       name: postgresql-13
+       state: stopped
+
+    - name: Start postgresql
+      service:
+       name: postgresql-13
+       state: started
+
+    - name: Start pgpool2
+      service:
+       name: pgpool
+       state: started

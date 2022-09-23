@@ -77,7 +77,8 @@
 
    - name: Setup .pcpass
      shell: |
-      echo 'localhost:9898:pgpool:bbcb8540bb35f9801f6c0463e677b3a5' > ~/.pcppass
+      #echo 'localhost:9898:pgpool:bbcb8540bb35f9801f6c0463e677b3a5' > ~/.pcppass
+      echo 'localhost:9898:pgpool:dbpass$%^' > ~/.pcppass
       chmod 600 ~/.pcppass
      args:
       warn: no
