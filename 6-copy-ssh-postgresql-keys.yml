@@ -24,3 +24,24 @@
       - "{{groups['all_servers']}}"
     tags:
       - ssh
+
+  - name: fetch all public ssh keys (from root)
+    shell: cat /root/.ssh/id_rsa_pgpool.pub
+    register: ssh_keys
+    become_user: root
+    tags:
+      - ssh
+
+  - name: check keys
+    debug: msg="{{ ssh_keys.stdout }}"
+    tags:
+      - ssh
+
+  - name: deploy keys on all servers
+    authorized_key: user=postgres key="{{ item[0] }}"
+    delegate_to: "{{ item[1] }}"
+    with_nested:
+      - "{{ ssh_keys.stdout }}"
+      - "{{groups['all_servers']}}"
+    tags:
+      - ssh

@@ -13,6 +13,14 @@
        owner: postgres
        group: postgres
 
+   - name: Copy .pgpass (root)
+     template:
+       src: ./pgpool_files/.pgpass
+       dest: ~/.pgpass
+       mode: 0600
+       owner: root
+       group: root
+
    - name: Copy pgpool.conf
      template:
        src: ./pgpool_files/pgpool.conf
@@ -49,17 +57,17 @@
      template:
        src: ./pgpool_files/recovery_1st_stage
        dest: /var/lib/postgresql/13/main/
-       mode: 0755
-       owner: root
-       group: root
+       mode: 0775
+       owner: postgres
+       group: postgres
 
    - name: Copy pgpool_remote_start
      template:
        src: ./pgpool_files/pgpool_remote_start
        dest: /var/lib/postgresql/13/main/
-       mode: 0755
-       owner: root
-       group: root
+       mode: 0775
+       owner: postgres
+       group: postgres
 
    - name: Copy myrecovery.conf
      template:

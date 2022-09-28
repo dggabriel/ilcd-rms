@@ -9,7 +9,7 @@ DEST_NODE_PGDATA="$3"
 PRIMARY_NODE_PORT="$4"
 DEST_NODE_ID="$5"
 DEST_NODE_PORT="$6"
-PRIMARY_NODE_HOST="$7"
+PRIMARY_NODE_HOST=$(hostname)
 
 PGHOME=/usr/lib/postgresql/13
 ARCHIVEDIR=/var/lib/postgresql/archivedir
