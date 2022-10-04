@@ -21,6 +21,14 @@
        owner: root
        group: root
 
+   - name: Copy id_rsa_pgpool (postgres)
+     shell: |
+      cp /var/lib/postgresql/.ssh/id_rsa_pgpool /var/lib/postgresql/
+      chmod 600  /var/lib/postgresql/id_rsa_pgpool
+      chown postgres:postgres /var/lib/postgresql/id_rsa_pgpool
+     args:
+      warn: no
+
    - name: Copy pgpool.conf
      template:
        src: ./pgpool_files/pgpool.conf

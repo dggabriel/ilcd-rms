@@ -98,7 +98,7 @@ EOT
 
     if [ ${PGVERSION} -ge 12 ]; then
         sed -i -e \"\\\$ainclude_if_exists = '$(echo ${RECOVERYCONF} | sed -e 's/\//\\\//g')'\" \
-               -e \"/^include_if_exists = '$(echo ${RECOVERYCONF} | sed -e 's/\//\\\//g')'/d\" ${NODE_PGDATA}postgresql.conf
+               -e \"/^include_if_exists = '$(echo ${RECOVERYCONF} | sed -e 's/\//\\\//g')'/d\" /etc/postgresql/13/main/postgresql.conf/postgresql.conf
         touch ${NODE_PGDATA}standby.signal
     else
         echo \"standby_mode = 'on'\" >> ${RECOVERYCONF}
